@@ -2,7 +2,7 @@
 const dbcone = require('../config/lib/connet_mysql')
 let conexibd = new dbcone()
 //######################### dbcurso ###################################
-module.exports = class dbparticiantes{
+module.exports = class dbvotaciones{
     
     async leer(req,res){
         let conet = conexibd.connection(req,res)
@@ -27,7 +27,7 @@ module.exports = class dbparticiantes{
         }
     }
 
-    insertar(req,res){
+    like_participantes(req,res){
         let conet = conexibd.connection(req,res)
         // verifica si hay conexion si no la hay manda el error
         if(conet != null){

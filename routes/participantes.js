@@ -6,29 +6,32 @@ const objneg = new negpatici()
 
 //listar
 rooutes.get("/", (req, res) => {
-  listpartici = objneg.listar_participantes()
-  res.send(listpartici);
+    objneg.listar_participantes(req, res)
+});
+
+//leer
+rooutes.get("/r/:id", (req, res) => {
+  objneg.leer_participante(req, res)
 });
 
 //instar
 rooutes.post("/", (req, res) => {
-  jsonbody = req.body
-  messege = objneg.insertar_participante(jsonbody)
-  res.send(messege);
+    objneg.insertar_participante(req, res)
+  //res.send(messege);
 });
 
 //actualizar
 rooutes.put("/:id", (req, res) => {
-  jsonbody = req.body;
-  jsonbody["id"] = req.params.id;
-  messege = objneg.actualizar_participante(jsonbody)
-  res.send(messege);
+  // jsonbody = req.body;
+  // jsonbody["id"] = req.params.id;
+  objneg.actualizar_participante(req, res)
+  //res.send(messege);
 });
 
 //eliminar
 rooutes.delete("/:id", (req, res) => {
-  messege = objneg.eliminar_participante(id)
-  res.send(messege);
+  objneg.eliminar_participante(req, res)
+  //res.send(messege);
 })
 
 module.exports = rooutes;
