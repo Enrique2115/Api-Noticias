@@ -1,12 +1,14 @@
 const express = require("express");
 const rooutes = express.Router();
-const model = require('../models/md_participantes')();
+const model = require('../models/md_participantes');
 //######################### rooutes ###################################
 
 module.exports = class negparticipantes{
     
     listar_participantes() {
-        model.find({},(err,part)=>{
+        var conquery = model()
+        conquery.find({},(err,part)=>{
+            if (err) return [];
             return part;
         })
     }

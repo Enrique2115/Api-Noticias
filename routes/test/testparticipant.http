@@ -1,3 +1,34 @@
 ### listar los participantes
 GET http://localhost:9000/partic HTTP/1.1
 Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A
+
+# insertar participantes
+POST http://localhost:9000/partic HTTP/1.1
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A
+Content-Type: application/json
+
+{
+    "id": "hjshfkjdshfjksdhfksd",
+    "nombre": "hjhjkfhjkshfdksjhfkds",
+    "descripccion": "sdfdfkhdskfhdsf",
+    "puntaje": 45,
+    "url": "",
+    "votaciones":[
+        {
+            "codigouser": "",
+            "time": ""
+        }
+    ]
+}
+
+# actualizar a un participante participantes
+PUT http://localhost:9000/partic HTTP/1.1
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A
+Content-Type: application/json
+
+{
+    
+}
+
+# Eliminar a un participante : 1 -> id del participante
+DELETE  http://localhost:9000/partic/1

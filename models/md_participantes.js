@@ -1,6 +1,6 @@
 module.exports = function(){
 
-    var dbconnet = require('../config/lib/connet_mongo')();
+    var dbconnet = require('../config/lib/connet_mongo');
     const Schema = require('mongoose').Schema;
 
     const participante = Schema({
