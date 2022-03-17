@@ -1,5 +1,7 @@
 const express = require("express");
 const rooutes = express.Router();
+const negpatici = require("../negocio/neg_participantes")
+const objneg = new negpatici()
 //######################### rooutes ###################################
 
 //listar
@@ -14,12 +16,13 @@ rooutes.post("/", (req, res) => {
 
 // Ingresar un like a un participante
 rooutes.get("/like/", (req, res) => {
-  res.send(`Ingresar un like con: ${req.header["authorization"]}`);
+    messege = objneg.like_participantes(req.headers['authorization'])
+    res.send(messege)
 });
 
 // Verificar la Participacion
 rooutes.get("/verifi/", (req, res) => {
-  res.send(`Verificar un like con: ${req.header["authorization"]}`);
+  res.send(`Verificar un like con: ${req.headers['authorization']}`);
 });
 
 module.exports = rooutes;
