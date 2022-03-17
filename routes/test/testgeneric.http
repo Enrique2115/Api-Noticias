@@ -1,0 +1,6 @@
+# ruta encargarda de listar
+GET http://192.168.0.7:9000/genetic/ HTTP/1.1
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A
+
+### generar un token
+GET http://192.168.0.7:9000/tokeniser/ HTTP/1.1
