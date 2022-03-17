@@ -6,6 +6,12 @@
             "user": "root",
             "password": "",
             "database": "bdecomers"
+        },
+        "mongo":{
+            "host": "localhost",
+            "schema":[
+                "participantes"
+            ]
         }
     },
     "apires":{

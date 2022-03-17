@@ -9,6 +9,7 @@ const verifyToken = require("./config/tockenizer/tokenizer");
 const tokeniser = require("./config/tockenizer/router/routertoken");
 const generico = require("./routes/generic");
 const participantes = require("./routes/participantes");
+const votaciones = require("./routes/votaciones");
 /// ----------------------------------------------
 const config = require("./config/config.json");
 
@@ -36,7 +37,7 @@ app.get("/", (req, res) => {
 app.use("/tokeniser", tokeniser);
 app.use("/genetic", verifyToken, generico);
 app.use("/partic", verifyToken, participantes);
-
+app.use("/votacion", verifyToken, votaciones);
 //resever runnig----------------------------------------------------------------
 app.listen(app.get("port"), config.apires.hosturl, () => {
   console.log("servidor se encuentra corriendo por el puerto", app.get("port"));

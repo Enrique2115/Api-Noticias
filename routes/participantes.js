@@ -6,23 +6,29 @@ const objneg = new negpatici()
 
 //listar
 rooutes.get("/", (req, res) => {
-  res.send("La ruta esta funcionando correctamente");
+  listpartici = objneg.listar_participantes()
+  res.send(listpartici);
 });
 
 //instar
 rooutes.post("/", (req, res) => {
-  res.send("La ruta esta funcionando correctamente");
+  jsonbody = req.body
+  messege = objneg.insertar_participante(jsonbody)
+  res.send(messege);
 });
 
-// Ingresar un like a un participante
-rooutes.get("/like/", (req, res) => {
-    messege = objneg.like_participantes(req.headers['authorization'])
-    res.send(messege)
+//actualizar
+rooutes.put("/:id", (req, res) => {
+  jsonbody = req.body;
+  jsonbody["id"] = req.params.id;
+  messege = objneg.actualizar_participante(jsonbody)
+  res.send(messege);
 });
 
-// Verificar la Participacion
-rooutes.get("/verifi/", (req, res) => {
-  res.send(`Verificar un like con: ${req.headers['authorization']}`);
-});
+//eliminar
+rooutes.delete("/:id", (req, res) => {
+  messege = objneg.eliminar_participante(id)
+  res.send(messege);
+})
 
 module.exports = rooutes;
