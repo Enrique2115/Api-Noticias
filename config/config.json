@@ -10,7 +10,7 @@
     },
     "apires":{
         "portpru" : 9000,
-        "hosturl" : "192.168.0.7"
+        "hosturl" : "localhost"
     },
     "apidatkey":{
         "id": 969280255,
