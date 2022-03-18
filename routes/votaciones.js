@@ -10,6 +10,12 @@ rooutes.get("/reload", (req, res) => {
     //res.send(messege)
 });
 
+// Analiza las respuesta de la ultima encuesta creada o aperturada
+rooutes.get("/analic", (req, res) => {
+    objneg.analicis_votaciones(req, res)
+    //res.send(messege)
+});
+
 // Ingresar un like a un participante
 rooutes.get("/aperture", (req, res) => {
     objneg.aperturar_votaciones(req,res)

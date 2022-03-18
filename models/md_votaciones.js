@@ -66,14 +66,22 @@ module.exports = class dbvotaciones{
         }
     }
 
-    actualizar(req,res){
+    analitic(req,res){
         let conet = conexibd.connection(req,res)
         // verifica si hay conexion si no la hay manda el error
         if(conet != null){
-            conet.query('UPDATE `participante` SET `nombre`= ? ,`descripccion`= ? ,`url`= ? WHERE `id_negocio`= ?',[req.body.nombre,req.body.descripccion,req.body.url,req.params.id], (err, rows) => {
+            conet.query('SELECT p.nombre ,p.puntaje, ((p.puntaje * 100)/(SELECT COUNT(*) as suma FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) )) as Promedio FROM `participante` as p WHERE `stado` = 1',[], (err, rows) => {
                 if (err) return res.send(err)
-                res.send("el curso a sido actualizaro")
+                res.json(rows)
             })
         }
     }
+
+    // resultados:
+    /**
+     * SELECT p.nombre ,p.puntaje, ((p.puntaje * 100)/(SELECT COUNT(*) as suma FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) )) as Promedio FROM `participante` as p WHERE `stado` = 1
+     * 
+     */
+
+
 }

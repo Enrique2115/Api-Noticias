@@ -119,4 +119,11 @@ module.exports = class negvotaciones{
         });
         return res.send(list[list.length - 1])
     }
+
+    async analicis_votaciones(req,res){
+        // refrescamos la puntuacion ......
+        await objconsulP.actualizer_puntuacion(req,res)
+        // analizamos los puntos
+        objconsul.analitic(req,res)
+    }
 }
