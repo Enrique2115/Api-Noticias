@@ -16,14 +16,15 @@ module.exports = class dbparticiantes{
         }
     }
     
-    listar(req,res){
+    async listar(req,res){
         let conet = conexibd.connection(req,res)
         // verifica si hay conexion si no la hay manda el error
         if(conet != null){
-            conet.query('SELECT * FROM `participante` WHERE `stado` = ?',[1],(err, rows) => {
-                if (err) return res.send(err)
-                res.json(rows)
-            })
+            let result = await new Promise((resol, reject) => conet.query('SELECT * FROM `participante` WHERE `stado` = ?',[1],(err, rows) => {
+                if (err) reject(err);
+                resol(rows);
+            }));
+            return result;
         }
     }
 
@@ -57,6 +58,20 @@ module.exports = class dbparticiantes{
                 if (err) return res.send(err)
                 res.send("el curso a sido actualizaro")
             })
+        }
+    }
+
+    async actualizer_puntuacion(req,res){
+        let conet = conexibd.connection(req,res)
+        // verifica si hay conexion si no la hay manda el error
+        if(conet != null){
+            const listpartici = await this.listar(req,res);
+            listpartici.forEach(element => {
+                conet.query('UPDATE `participante` SET `puntaje`= (SELECT COUNT(*) as suma FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) AND `id_parti` = ? ) WHERE `id_negocio` = ?',[element["id_negocio"],element["id_negocio"]], (err, rows) => {
+                    if (err) return res.send(err)
+                    //res.send("el curso a sido actualizaro")
+                })
+            });
         }
     }
 }

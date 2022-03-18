@@ -1,6 +1,6 @@
-### dar un like a una pagina : 1 - iddelparticipante
+### dar un like a una pagina : 2 - iddelparticipante
 GET http://localhost:9000/votacion/like/1 HTTP/1.1
-Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTY0NzU4MDY2OX0.HjeeNOJSlubhFKak0NzsDwKKE1okk0_5V2PCHWtmk7o
 
 ### verifica si el usuario ya voto
 GET http://localhost:9000/votacion/verifi HTTP/1.1
@@ -10,10 +10,10 @@ Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5
 GET http://localhost:9000/votacion/reload HTTP/1.1
 Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A
 
-### aperturar una fecha
+### aperturar las votaciones con la fecha actual
 GET http://localhost:9000/votacion/aperture HTTP/1.1
 Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A
 
-### retorna la hora actual
+### retorna el ultimo tiempo de apertura de las votaciones
 GET http://localhost:9000/votacion/time HTTP/1.1
 Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A

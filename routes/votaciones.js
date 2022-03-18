@@ -6,32 +6,32 @@ const objneg = new negvotacion()
 
 // Ingresar un like a un participante
 rooutes.get("/reload", (req, res) => {
-    messege = objneg.reload_votaciones()
-    res.send(messege)
+    objneg.reload_votaciones(req, res)
+    //res.send(messege)
 });
 
 // Ingresar un like a un participante
 rooutes.get("/aperture", (req, res) => {
-    messege = objneg.aperturar_votaciones()
-    res.send(messege)
+    objneg.aperturar_votaciones(req,res)
+    //res.send(messege)
 });
 
 // Retorna el tiempo en codigo 202203152200 -> 2022 03 15 22 00
 rooutes.get("/time", (req, res) => {
-    messege = objneg.aperturar_votaciones()
-    res.send(messege)
+    objneg.get_time_apertura(req, res)
+    //res.send(messege)
 });
 
 // Ingresar un like a un participante
 rooutes.get("/like/:id", (req, res) => {
-    messege = objneg.like_participantes(req.params.id,req.headers['authorization'])
-    res.send(messege)
+    objneg.like_participantes(req, res)
+    //res.send(messege)
 });
 
 // Verificar la Participacion
-rooutes.get("/verifi", (req, res) => {
-    json = objneg.verifi_participante_to_empresa(req.headers['authorization'])
-    res.send(json)
+rooutes.get("/verifi", async (req, res) => {
+    let result = await objneg.verifi_participante_to_empresa(req, res)
+    res.send({"id_partici": result})
 });
 
 module.exports = rooutes;
