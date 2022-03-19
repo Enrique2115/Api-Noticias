@@ -27,7 +27,7 @@ module.exports = class negparticipantes{
     
     async listar_participantes(req, res) {
         const listparti = await objmodel.listar(req,res);
-        return res.json(listparti)
+        return res.send(listparti)
     }
 
     insertar_participante(req, res){

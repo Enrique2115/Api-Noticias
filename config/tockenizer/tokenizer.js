@@ -9,11 +9,15 @@ module.exports = function verifyToken(req,res,next){
     }
  
     const tokenext =  req.headers['authorization']
-    if (typeof tokenext !== 'undefined'){
-         const token = tokenext.split(" ")[1]
-         const payload = jwt.decode(token, config.apidatkey)
-         req.token = token
-         next()
+    console.log(tokenext)
+    console.log(typeof tokenext)
+    if (typeof tokenext !== undefined){
+        const listdatetoken = tokenext.split(" ")
+        const token = listdatetoken[listdatetoken.length-1]
+        const payload = jwt.decode(token, config.apidatkey)
+        if (payload == null) return res.status(403).send({message: 'No tienes autorizacion'});
+        req.token = token
+        next()
      }else{
          return res.status(403).send({message: 'No presenta el token'})
      }
