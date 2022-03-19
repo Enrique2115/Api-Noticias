@@ -16,7 +16,13 @@
     },
     "apires":{
         "portpru" : 9000,
-        "hosturl" : "localhost"
+        "hosturl" : "localhost",
+        "control_access":{
+            "host": "localhost:9000",
+            "peticcioes": "GET, POST, PUT, DELETE",
+            "hedders": "X-Requested-With,content-type",
+            "credencial": true
+        }
     },
     "apidatkey":{
         "id": 969280255,

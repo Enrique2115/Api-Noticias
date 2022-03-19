@@ -28,6 +28,27 @@ app.use(mysqlconnet(mysql, dbopccion, 'single'))
 app.use(express.json());
 //app.use()
 
+// - Configuration origen de acceso de la api rest
+
+app.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', config.apires.control_access.host);
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', config.apires.control_access.peticcioes);
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', config.apires.control_access.hedders);
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', config.apires.control_access.credencial);
+
+  // Pass to next layer of middleware
+  next();
+});
+
 //rootas -----------------------------------------------------------------------
 //**** roota principal o gemerica *****/
 app.get("/", (req, res) => {
