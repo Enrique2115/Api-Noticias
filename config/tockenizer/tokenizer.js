@@ -9,13 +9,12 @@ module.exports = function verifyToken(req,res,next){
     }
  
     const tokenext =  req.headers['authorization']
-    console.log(tokenext)
-    console.log(typeof tokenext)
     if (typeof tokenext !== undefined){
         const listdatetoken = tokenext.split(" ")
         const token = listdatetoken[listdatetoken.length-1]
         const payload = jwt.decode(token, config.apidatkey)
-        if (payload == null) return res.status(403).send({message: 'No tienes autorizacion'});
+        if (payload == null) return res.status(403).send({message: 'El toquen es invalido'});
+        if (payload.user.id != config.apidatkey.id || payload.user.nombre != config.apidatkey.nombre ||  payload.user.email != config.apidatkey.email) return res.status(403).send({message: 'El toquen es invalido'});
         req.token = token
         next()
      }else{
