@@ -22,7 +22,7 @@ module.exports = class negparticipantes{
     
     async leer_participante(req, res){
         const prod = await objmodel.leer(req,res);
-        return prod
+        return res.send(prod[0])
     }
     
     async listar_participantes(req, res) {
