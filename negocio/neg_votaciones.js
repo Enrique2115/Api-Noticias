@@ -50,20 +50,17 @@ module.exports = class negvotaciones{
         });
         // Calcula la cantidad de horas que an  trascurrido
         const tiemtras = this.calcular_resto_fechas(codefecha, list[list.length - 1])
+        const fitettiem = listtime[listtime.length - 1]
         // Comprueba si se hay tiempo aun para poder botar
-        if (Math.abs(tiemtras) < 24 ){
-            // verifica si el usuario ya voto
-            const vote = await this.verifi_participante_to_empresa(req,res) 
-            if ( vote != 0){
-                return res.send({"messege":`El usuario ya a votado antes`})
-            }else{
-                objconsul.like_participantes(req,res)
-                objconsulP.actualizer_puntuacion(req,res)
-                return res.send({"messege":`Ingresar un like correctamente`})
-            }
-        }else{
-            return res.send({"messege":`Ya no se puede votar, tiempo estimado agotado`})
-        }
+        if (!(Math.abs(tiemtras) < parseInt(fitettiem["Hors_filter"]))) return res.send({"messege":`Ya no se puede votar, tiempo estimado agotado`});
+
+        // verifica si el usuario ya voto
+        const vote = await this.verifi_participante_to_empresa(req,res)
+        if (vote != 0) return res.send({"messege":`El usuario ya a votado antes`})
+
+        objconsul.like_participantes(req,res)
+        objconsulP.actualizer_puntuacion(req,res)
+        return res.send({"messege":`Ingresar un like correctamente`})
     }
 
     async verifi_participante_to_empresa(req,res){
@@ -93,7 +90,7 @@ module.exports = class negvotaciones{
         if (list.length != 0){
             let hors = this.calcular_resto_fechas(codetime,list[list.length-1])
             // si es mayor de 24 horas se puede registrar
-            if(hors > 24){
+            if(hors > listtime){
                 // ya no hay una votacion en proceso
                 objconsul.insert_votacion(req,res,this.format_date_mysql(codetime), 24)
                 const resultado = objconsul.reload_votaciones(req,res);
@@ -112,12 +109,79 @@ module.exports = class negvotaciones{
         return res.send({"messege": resultado})
     }
 
+    // HORAS TRASCURRIDAS
+    resta_dos_fechas_a_hora(fecha1, fecha2){
+        // fecha 1 : fecha de apertura
+        // fecha 2 : fecha actual
+        if(!(fecha1 instanceof Date)||!(fecha2 instanceof Date)){
+            throw TypeError("Las fechas no cumplen don tel timpo de dato DATE")
+        }
+        // fecha2.getTime() -> vota el tiempo en segundos
+        let milisegundosdiferent = fecha2.getTime() - fecha1.getTime()
+        // 1000 milisegundos quiere decir 1 segundo
+        let diferencia = (milisegundosdiferent) / 1000
+        // 60 segundos es equivalente a 1 minuto
+        // 60 minutos es equivalente a 1 hora
+        // 3600 segundos es igual a 1 hora - 60 x 60
+        diferencia /= (60*60);
+        
+        return Math.abs(Math.round(diferencia))
+    }
+
+    format_code_time(fechaactual){
+        return [parseInt(fechaactual.substring(0,4)),parseInt(fechaactual.substring(4,6)),parseInt(fechaactual.substring(6,8)),parseInt(fechaactual.substring(8,10)),parseInt(fechaactual.substring(10,12)),0]
+    }
+
     async get_time_apertura(req,res){
         const listtime = await this.list_time_apertur(req,res)
         const list = listtime.map((item)=>{
-            return {"code_time": this.extrac_fecha_actual_code(item["fecha"]), "time_filter": item["Hors_filter"]}
+            return {
+                "code_time": this.extrac_fecha_actual_code(item["fecha"]), 
+                "time_filter": item["Hors_filter"]
+            }
         });
-        return res.send(list[list.length - 1])
+        const jsonresul = (list[list.length - 1]);
+        const codetime  = jsonresul["code_time"]
+        // convertimos el code_time en un array de datos
+        const datosapeturearray = this.format_code_time(codetime)
+        // capturamos la fecha actual
+        const now = new Date(Date.now())
+        // capturamos la fecha de apertura
+        const apertura = new Date(datosapeturearray[0],
+                                datosapeturearray[1]-1,
+                                datosapeturearray[2],
+                                datosapeturearray[3],
+                                datosapeturearray[4],
+                                datosapeturearray[5])
+        // horas trascurridas
+        const hors_transcur = this.resta_dos_fechas_a_hora(apertura,now)
+        // milisegundossegundos de diferencia
+        let tiempotrascurrido = now.getTime() - apertura.getTime()
+        // extraer fecha, hora, minutos y dias trascurridos
+        // asignar el valor de las unidades en milisegundos
+        var msecPerMinute = 1000 * 60;
+        var msecPerHour = msecPerMinute * 60;
+        var msecPerDay = msecPerHour * 24;
+
+        // Calcular cuentos días contiene el intervalo. Substraer cuantos días
+        //tiene el intervalo para determinar el sobrante
+        var days = Math.floor(tiempotrascurrido / msecPerDay );
+        tiempotrascurrido = tiempotrascurrido - (days * msecPerDay );
+
+        // Calcular las horas , minutos y segundos
+        var hours = Math.floor(tiempotrascurrido / msecPerHour );
+        tiempotrascurrido = tiempotrascurrido - (hours * msecPerHour );
+
+        var minutes = Math.floor(tiempotrascurrido / msecPerMinute );
+        tiempotrascurrido = tiempotrascurrido - (minutes * msecPerMinute );
+
+        var seconds = Math.floor(tiempotrascurrido / 1000 );
+
+        jsonresul["hors_transcur"] = hors_transcur
+        jsonresul["Time_trascurr"] = `${this.correcion_dato_fecha(hours)}:${this.correcion_dato_fecha(minutes)}:${this.correcion_dato_fecha(seconds)}`
+        jsonresul["days_trascurr"] = `00/00/${this.correcion_dato_fecha(days)}`
+
+        return res.send(jsonresul)
     }
 
     async analicis_votaciones(req,res){

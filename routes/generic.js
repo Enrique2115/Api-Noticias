@@ -1,9 +1,9 @@
-const express = require('express')
-const rooutes = express.Router()
+const express = require("express");
+const rooutes = express.Router();
 //######################### rooutes ###################################
 //listar
-rooutes.get('/', (req, res) => {
-    res.send("La ruta esta funcionando correctamente")
-})
+rooutes.get("/", (req, res) => {
+  res.send("La ruta esta funcionando correctamente");
+});
 
-module.exports = rooutes
+module.exports = rooutes;
