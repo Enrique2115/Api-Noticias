@@ -49,9 +49,9 @@ module.exports = class negparticipantes{
     }
 
     async eliminar_participante(req, res){
-        const partici = await this.leer_participante(req, res);
-        console.log(partici.length);
-        (partici.length != 0)?objmodel.eliminar(req, res): res.send({"messege": "El id no existe en la eliminacion"})
+        const partici = await objmodel.leer(req, res);
+        if (!(partici.length != 0)) return res.send({"messege": "El id no existe en la eliminacion"})
+        objmodel.eliminar(req, res)
         //res.json({"messeg": "Error de eliminar el participante"})
     }
     
