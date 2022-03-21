@@ -70,7 +70,7 @@ module.exports = class dbvotaciones {
         let conet = conexibd.connection(req, res)
         // verifica si hay conexion si no la hay manda el error
         if (conet != null) {
-            conet.query('SELECT p.nombre , p.descripccion, p.puntaje, ((p.puntaje * 100)/(SELECT COUNT(*) as suma FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) )) as promedio FROM `participante` as p WHERE `stado` = 1', [], (err, rows) => {
+            conet.query('SELECT p.id_negocio ,p.nombre , p.descripccion, p.puntaje, ((p.puntaje * 100)/(SELECT COUNT(*) as suma FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) )) as promedio FROM `participante` as p WHERE `stado` = 1', [], (err, rows) => {
                 if (err) return res.send(err)
                 res.json(rows)
             })

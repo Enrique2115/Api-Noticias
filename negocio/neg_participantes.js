@@ -39,13 +39,11 @@ module.exports = class negparticipantes{
     }
 
     async actualizar_participante(req, res){
-        if (req.body.nombre != "" && req.body.descripccion != "" &&  req.body.url != ""){
-            const partici = await this.leer_participante(req, res);
-            console.log(partici.length);
-            (partici.length != 0)?objmodel.actualizar(req, res):res.send({"messege": "El id no existe en la eliminacion"});
-        }else{
-            return res.send({"messege": "Error al actualizar datos al servidor"})
-        }
+        if (!(req.body.nombre != "" && req.body.descripccion != "" &&  req.body.url != "")) return res.send({"messege": "Error al actualizar datos al servidor"})
+        const partici = await this.leer(req, res);
+        console.log(partici.length);
+        if (!(partici.length != 0)) return res.send({"messege": "El id no existe en la eliminacion"});
+        objmodel.actualizar(req, res)
     }
 
     async eliminar_participante(req, res){
