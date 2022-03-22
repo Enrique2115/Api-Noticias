@@ -31,11 +31,8 @@ module.exports = class negparticipantes{
     }
 
     insertar_participante(req, res){
-        if (req.body.nombre != "" && req.body.descripccion != "" &&  req.body.url != ""){
-            objmodel.insertar(req, res);
-        }else{
-            return res.send({"messege": "Error al insertar datos al servidor"})
-        }
+        if (!(req.body.nombre != "" && req.body.descripccion != "" &&  req.body.url != "")) return res.send({"messege": "Error al insertar datos al servidor"})
+        objmodel.insertar(req, res);
     }
 
     async actualizar_participante(req, res){
