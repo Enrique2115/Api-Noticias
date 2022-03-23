@@ -14,7 +14,7 @@ rooutes.get("/r/:id", (req, res) => {
   objneg.leer_participante(req, res)
 });
 
-//instar
+//instar un participante
 rooutes.post("/", (req, res) => {
     objneg.insertar_participante(req, res)
   //res.send(messege);

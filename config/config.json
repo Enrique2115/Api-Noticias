@@ -17,6 +17,7 @@
     "apires":{
         "portpru" : 9000,
         "hosturl" : "localhost",
+        "secure": "http",
         "control_access":{
             "host": "localhost:9000",
             "peticcioes": "GET, POST, PUT, DELETE",
