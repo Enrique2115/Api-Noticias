@@ -8,6 +8,8 @@ const cors = require("cors")
 const verifyToken = require("./config/tockenizer/tokenizer");
 /// rotas de app ---------------------------------
 const tokeniser = require("./config/tockenizer/router/routertoken");
+const imageftp = require("./config/serviceftp/uploudimage");
+const gimageftp = require("./config/serviceftp/getimage")
 const generico = require("./routes/generic");
 const participantes = require("./routes/participantes");
 const votaciones = require("./routes/votaciones");
@@ -42,6 +44,8 @@ app.use("/tokeniser", tokeniser);
 app.use("/genetic", verifyToken, generico);
 app.use("/partic", verifyToken, participantes);
 app.use("/votacion", verifyToken, votaciones);
+app.use("/ftp",verifyToken, imageftp)
+app.use("/gftp", gimageftp)
 //resever runnig----------------------------------------------------------------
 app.listen(app.get("port"), config.apires.hosturl, () => {
   console.log("servidor se encuentra corriendo por el puerto", app.get("port"));
