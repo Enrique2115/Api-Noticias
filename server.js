@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(cors())
 
 //rootas -----------------------------------------------------------------------
-//**** roota principal o gemerica *****/
+//**** roota principal o gemerica */
 app.get("/", (req, res) => {
   res.send("welcon to my apy");
 });
