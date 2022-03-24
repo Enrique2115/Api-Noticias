@@ -1,11 +1,11 @@
 {
     "bd":{
         "mysql":{
-            "host": "localhost",
+            "host": "blywpvh5inooghu7iazy-mysql.services.clever-cloud.com",
             "port": 3306,
-            "user": "root",
-            "password": "",
-            "database": "bdnoticias"
+            "user": "ul2jwovrnefnz53q",
+            "password": "0M6qJBWr7Z6yPMeBqt54",
+            "database": "blywpvh5inooghu7iazy"
         },
         "mongo":{
             "host": "localhost",
@@ -19,7 +19,7 @@
         "hosturl" : "localhost",
         "secure": "http",
         "control_access":{
-            "host": "localhost:9000",
+            "host": "*",
             "peticcioes": "GET, POST, PUT, DELETE",
             "hedders": "X-Requested-With,content-type",
             "credencial": true
