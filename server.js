@@ -37,11 +37,11 @@ var whitelist = config.apires.control_access.origin;
 var corsOptions = {
   origin: function (origin, callback) {
     console.log(origin);
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("no tienes acceso por cors"));
-    }
+    callback(null, true);
+    // if (whitelist.indexOf(origin) !== -1) {
+    // } else {
+    //   callback(new Error("no tienes acceso por cors"));
+    // }
   },
 };
 
