@@ -48,7 +48,7 @@ rooutes.post("/insert",(req, res) => {
         }
         //console.log(req.file);
         var jsonresp = {
-            url : config.apires.secure+"://"+config.apires.hosturl+":"+config.apires.portpru+"/gftp/"+req.file.filename
+            url : config.apires.hostFtp/gftp/"+req.file.filename
         }
         res.json(jsonresp);
     });
