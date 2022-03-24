@@ -55,6 +55,7 @@ app.use("/tokeniser", cors(corsOptions), tokeniser);
 app.use("/genetic", cors(corsOptions), verifyToken, generico);
 app.use("/partic", cors(corsOptions), verifyToken, participantes);
 app.use("/votacion", cors(corsOptions), verifyToken, votaciones);
+// ftp insert image
 app.use("/ftp", cors(corsOptions), verifyToken, imageftp);
 app.use("/gftp", cors(corsOptions), gimageftp);
 //resever runnig----------------------------------------------------------------
