@@ -19,7 +19,7 @@
         "hosturl" : "https://api-noticias-lacanna.herokuapp.com/",
         "hostFtp":"https://api-noticias-lacanna.herokuapp.com",
         "control_access":{
-            "origin": ["http://localhost:3000","https://admin-noticias.netlify.app"],
+            "origin": ["http://localhost:3000","https://admin-noticias.netlify.app", "https://admin-noticias.netlify.app/report"],
             "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
             "preflightContinue": false,
             "optionsSuccessStatus": 204
