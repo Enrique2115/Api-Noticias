@@ -16,36 +16,35 @@ const storageftp = multer.diskStorage({
   },
 });
 
+const Filercode = (req, file, cb) => {
+  const filetypes = /jpeg|jpg|png|gif/;
+  const mytype = filetypes.test(file.mimetype);
+  const extname = filetypes.test(path.extname(file.originalname));
+  if (mytype && extname) {
+    return cb(null, true);
+  }
+  cb("El archivo debe ser una imagen valida");
+}
+
 const insertImage = multer({
   storage: storageftp,
-  dest: "ftp",
+  //dest: "ftp",
   limits: { fieldSize: 2000000 },
-  fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png|gif/;
-    const mytype = filetypes.test(file.mimetype);
-    const extname = filetypes.test(path.extname(file.originalname));
-    if (mytype && extname) {
-      return cb(null, true);
-    }
-    cb("El archivo debe ser una imagen valida");
-  },
+  fileFilter: Filercode,
 }).single("photo");
 
 // ####################################################################
 
 //readindex
-rooutes.get("/render/", (req, res) => {
-  //res.send(req.params.img)
-  res.render("index.ejs");
-});
+// rooutes.get("/render/", (req, res) => {
+//   //res.send(req.params.img)
+//   res.render("index.ejs");
+// });
 
 //insert
 rooutes.post("/insert", (req, res) => {
   insertImage(req, res, (err) => {
-    if (err) {
-      err.message = "The file is so heavy for my services";
-      return res.send(err);
-    }
+    if (err) return res.send(err);
     //console.log(req.file);
     var jsonresp = {
       url: config.apires.hostFtp + "/gftp/" + req.file.filename,

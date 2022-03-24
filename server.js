@@ -13,6 +13,7 @@ const gimageftp = require("./config/serviceftp/getimage");
 const generico = require("./routes/generic");
 const participantes = require("./routes/participantes");
 const votaciones = require("./routes/votaciones");
+const cloudftp = require("./config/serviceftp/uploudcloud")
 /// ----------------------------------------------
 const config = require("./config/config.json");
 
@@ -58,6 +59,8 @@ app.use("/votacion", cors(corsOptions), verifyToken, votaciones);
 // ftp insert image
 app.use("/ftp", cors(corsOptions), verifyToken, imageftp);
 app.use("/gftp", cors(corsOptions), gimageftp);
+// ftp insert image cloudbinary
+app.use("/cftp", cors(corsOptions), verifyToken, cloudftp);
 //resever runnig----------------------------------------------------------------
 app.listen(app.get("port"), () => {
   console.log("servidor se encuentra corriendo por el puerto", app.get("port"));
