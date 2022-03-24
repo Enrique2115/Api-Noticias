@@ -17,9 +17,9 @@
     "apires":{
         "portpru" : 9000,
         "hosturl" : "https://api-noticias-lacanna.herokuapp.com/",
-        "hostFtp":"https://api-noticias-lacanna.herokuapp.com/",
+        "hostFtp":"https://api-noticias-lacanna.herokuapp.com",
         "control_access":{
-            "host": "*",
+            "host": ["https://admin-noticias.netlify.app/"],
             "peticcioes": "GET, POST, PUT, DELETE",
             "hedders": "X-Requested-With,content-type",
             "credencial": true

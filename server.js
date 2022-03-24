@@ -32,7 +32,7 @@ app.use(express.json());
 //app.use()
 
 // - Configuration origen de acceso de la api rest
-app.use(cors());
+app.use(cors(config.apires.control_access));
 
 //rootas -----------------------------------------------------------------------
 //**** roota principal o gemerica */
