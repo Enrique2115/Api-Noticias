@@ -5,6 +5,7 @@ const mysqlconnet = require("express-myconnection");
 const ejs = require("ejs");
 const path = require("path");
 const cors = require("cors");
+const morgan = require("morgan")
 const verifyToken = require("./config/tockenizer/tokenizer");
 /// rotas de app ---------------------------------
 const tokeniser = require("./config/tockenizer/router/routertoken");
@@ -29,38 +30,41 @@ app.set("view engine", "ejs");
 //mydellwares ------------------------------------------------------------------
 // si se desea utilizar mysql desabilita esto
 app.use(mysqlconnet(mysql, dbopccion, "single"));
+app.use(morgan("dev"))
 app.use(express.json());
-//app.use()
+// control de errores
+const logErrors = (err, req, res, next) => {
+  console.error(err.stack);
+  next(err);
+}
+app.use(logErrors) 
+
+//
 
 // - Configuration origen de acceso de la api rest
-app.use(cors(config.apires.control_access));
-var whitelist = config.apires.control_access.origin;
-var corsOptions = {
-  origin: function (origin, callback) {
-    console.log(origin);
-    callback(null, true);
-    // if (whitelist.indexOf(origin) !== -1) {
-    // } else {
-    //   callback(new Error("no tienes acceso por cors"));
-    // }
-  },
-};
+app.use(cors((req , callback)=>{
+  let corsOptions = { origin: true };
+    console.log(req.header('Origin'))
+    callback(null, corsOptions)
+}));
+// var whitelist = config.apires.control_access.origin;
+// var corsOptions = 
 
 //rootas -----------------------------------------------------------------------
 //**** roota principal o gemerica */
-app.get("/", cors(corsOptions), (req, res) => {
+app.get("/", (req, res) => {
   res.send("welcon to my apy");
 });
 //**** routers personalizados */
-app.use("/tokeniser", cors(corsOptions), tokeniser);
-app.use("/genetic", cors(corsOptions), verifyToken, generico);
-app.use("/partic", cors(corsOptions), verifyToken, participantes);
-app.use("/votacion", cors(corsOptions), verifyToken, votaciones);
+app.use("/tokeniser", tokeniser);
+app.use("/genetic", verifyToken, generico);
+app.use("/partic", verifyToken, participantes);
+app.use("/votacion", verifyToken, votaciones);
 // ftp insert image
-app.use("/ftp", cors(corsOptions), verifyToken, imageftp);
-app.use("/gftp", cors(corsOptions), gimageftp);
+app.use("/ftp", verifyToken, imageftp);
+app.use("/gftp", gimageftp);
 // ftp insert image cloudbinary
-app.use("/cftp", cors(corsOptions), verifyToken, cloudftp);
+app.use("/cftp", verifyToken, cloudftp);
 //resever runnig----------------------------------------------------------------
 app.listen(app.get("port"), () => {
   console.log("servidor se encuentra corriendo por el puerto", app.get("port"));

@@ -112,21 +112,22 @@ module.exports = class negvotaciones {
     const list = listtime.map((item) => {
       return this.extrac_fecha_actual_code(item["fecha"]);
     });
+    // si no se encuentra una apertura
+    if(list.length == 0){
+      // ya no hay una votacion en proceso
+      objconsul.insert_votacion(
+        req,
+        res,
+        this.format_date_mysql(codetime),
+        24
+      );
+      const resultado = objconsul.reload_votaciones(req, res);
+      return res.send({ messege: "Aperturado correctamente" });
+    }
     // si ya hay encuentas aperturaras a futuro
-    if (list.length != 0) {
-      let hors = this.calcular_resto_fechas(codetime, list[list.length - 1]);
+    let hors = this.calcular_resto_fechas(codetime, list[list.length - 1]);
       // si es mayor de 24 horas se puede registrar
-      if (hors > listtime) {
-        // ya no hay una votacion en proceso
-        objconsul.insert_votacion(
-          req,
-          res,
-          this.format_date_mysql(codetime),
-          24
-        );
-        const resultado = objconsul.reload_votaciones(req, res);
-        return res.send({ messege: "Aperturado correctamente" });
-      } else {
+    if (!(hors > listtime)) {
         // si hay una votacion en proceso
         objconsul.insert_votacion(
           req,
@@ -139,8 +140,17 @@ module.exports = class negvotaciones {
           messege:
             "Ya hay aperturado una encuesta en este mismo instante - tener en cuenta",
         });
+        
       }
-    }
+      // ya no hay una votacion en proceso
+      objconsul.insert_votacion(
+        req,
+        res,
+        this.format_date_mysql(codetime),
+        24
+      );
+      const resultado = objconsul.reload_votaciones(req, res);
+      return res.send({ messege: "Aperturado correctamente" });
   }
 
   reload_votaciones(req, res) {
