@@ -8,10 +8,11 @@ module.exports = class dbparticiantes{
         let conet = conexibd.connection(req,res)
         // verifica si hay conexion si no la hay manda el error
         if(conet != null){
-            let results = await new Promise((resol, reject) => conet.query('SELECT * FROM `participante` WHERE `id_negocio` = ?',[req.params.id], (err, rows) => {
+            let results = await new Promise(async (resol, reject) => await conet.query('SELECT * FROM `participante` WHERE `id_negocio` = ?',[req.params.id], (err, rows) => {
                 if (err) reject(err);
                 resol(rows);
             }));
+
             return results;
         }
     }
@@ -20,7 +21,7 @@ module.exports = class dbparticiantes{
         let conet = conexibd.connection(req,res)
         // verifica si hay conexion si no la hay manda el error
         if(conet != null){
-            let result = await new Promise((resol, reject) => conet.query('SELECT * FROM `participante` WHERE `stado` = ?',[1],(err, rows) => {
+            let result = await new Promise(async (resol, reject) => await conet.query('SELECT * FROM `participante` WHERE `stado` = ?',[1],(err, rows) => {
                 if (err) reject(err);
                 resol(rows);
             }));

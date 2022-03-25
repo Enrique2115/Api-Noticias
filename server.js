@@ -15,6 +15,7 @@ const generico = require("./routes/generic");
 const participantes = require("./routes/participantes");
 const votaciones = require("./routes/votaciones");
 const cloudftp = require("./config/serviceftp/uploudcloud")
+const usuario = require("./routes/usuarios")
 /// ----------------------------------------------
 const config = require("./config/config.json");
 
@@ -34,21 +35,15 @@ app.use(morgan("dev"))
 app.use(express.json());
 // control de errores
 const logErrors = (err, req, res, next) => {
-  console.error(err.stack);
-  next(err);
+  console.error(err.message);
+  res.status(500).send(`Some wrong ${err.message}`)
 }
-app.use(logErrors) 
-
-//
-
 // - Configuration origen de acceso de la api rest
 app.use(cors((req , callback)=>{
   let corsOptions = { origin: true };
     console.log(req.header('Origin'))
     callback(null, corsOptions)
-}));
-// var whitelist = config.apires.control_access.origin;
-// var corsOptions = 
+})); 
 
 //rootas -----------------------------------------------------------------------
 //**** roota principal o gemerica */
@@ -57,6 +52,7 @@ app.get("/", (req, res) => {
 });
 //**** routers personalizados */
 app.use("/tokeniser", tokeniser);
+app.use("/user", usuario);
 app.use("/genetic", verifyToken, generico);
 app.use("/partic", verifyToken, participantes);
 app.use("/votacion", verifyToken, votaciones);
@@ -65,6 +61,8 @@ app.use("/ftp", verifyToken, imageftp);
 app.use("/gftp", gimageftp);
 // ftp insert image cloudbinary
 app.use("/cftp", verifyToken, cloudftp);
+// errores de ejecucion 
+app.use(logErrors);
 //resever runnig----------------------------------------------------------------
 app.listen(app.get("port"), () => {
   console.log("servidor se encuentra corriendo por el puerto", app.get("port"));

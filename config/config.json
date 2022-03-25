@@ -14,6 +14,10 @@
             ]
         }
     },
+    "loguser":{
+        "usser": "admin",
+        "pass" : "admin"
+    },
     "apires":{
         "portpru" : 9000,
         "hosturl" : "https://api-noticias-lacanna.herokuapp.com/",

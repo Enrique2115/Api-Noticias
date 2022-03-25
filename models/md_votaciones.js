@@ -10,7 +10,7 @@ module.exports = class dbvotaciones {
         if (conet != null) {
             let code = req.headers['authorization'].split(" ")
             code = code[code.length - 1]
-            let results = await new Promise((resol, reject) => conet.query('SELECT * FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) AND `code_usser` = ?', [code], (err, rows) => {
+            let results = await new Promise(async (resol, reject) => await conet.query('SELECT * FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) AND `code_usser` = ?', [code], (err, rows) => {
                 if (err) reject(err);
                 resol(rows);
             }));
@@ -22,7 +22,7 @@ module.exports = class dbvotaciones {
         let conet = conexibd.connection(req, res)
         // verifica si hay conexion si no la hay manda el error
         if (conet != null) {
-            let results = await new Promise((resol, reject) => conet.query('SELECT * FROM `votaciones` WHERE 1', (err, rows) => {
+            let results = await new Promise(async (resol, reject) => await conet.query('SELECT * FROM `votaciones` WHERE 1', (err, rows) => {
                 if (err) return reject(err);
                 resol(rows);
             }))

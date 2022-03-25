@@ -1,0 +1,8 @@
+### comprobar el logeo
+POST http://localhost:9000/user/log HTTP/1.1
+Content-Type: application/json
+
+{
+    "usser": "admin",
+    "pass": "admin"
+}
