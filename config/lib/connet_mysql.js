@@ -7,10 +7,41 @@ module.exports = class dbmysql{
     connection(req,res){
         let connt = null;
         req.getConnection((err, conn) => {
-            if (err) return res.send(err)
+            
             connt = conn
         })
         return connt
+    }
+
+    // esta funcion mas sirve la los selet - para los pool
+    // async pool_query(req,res, query, parameter){
+    //     let result = await new Promise(async (resol, reject) => await req.getConnection((err, connection)=>{
+    //         if (err) console.log(err) // en caso que de un error de conexion
+    //         console.log("connetado")
+    //         connection.query(query, parameter, (err, rows) => {
+    //             //console.log(req._freeConnections.indexOf(connection)); // -1
+    //             //connection.release(); // apaga la conexion
+    //             if (err) return reject(err);
+    //             resol(rows);
+    //             //console.log(req._freeConnections.indexOf(connection)); // 0
+    //         })
+    //     })).catch((err) => setImmediate(() => { console.log(err.message);})); // si da un error de promesa;
+    //     return result
+    // }
+
+    // esta funcion mas sirve la los selet
+    async single_query(req,res, query, parameter, messege = ""){
+        let result = await new Promise(async (resol, reject) => await req.getConnection((err, connection)=>{
+            if (err) return res.send(err) // en caso que de un error de conexion
+            connection.query(query, parameter, (err, rows) => {
+                if (err) return reject(err);
+                if (messege === "") resol(rows);
+                resol(messege);
+            })
+        })).catch((err) => setImmediate(() => { console.log(err.message); })); // si da un error de promesa;
+        if (messege === "") return result
+        console.log('\x1b[32m',messege)
+        return messege
     }
 }
 

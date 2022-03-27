@@ -190,20 +190,31 @@ module.exports = class negvotaciones {
 
   async get_time_apertura(req, res) {
     const listtime = await this.list_time_apertur(req, res);
+    // si no es un array retorna un objeto en hablo
+    if (!(Array.isArray(listtime))) return res.send({
+      code_time: "000000000000",
+      time_filter: 0,
+      hors_transcur: 0,
+      Time_trascurr: "00:00:00",
+      days_trascurr: "00/00/00",
+    });
+
+    // si es un array retorna un objeto en 0
+    if (listtime.length == 0) return res.send({
+      code_time: "000000000000",
+      time_filter: 0,
+      hors_transcur: 0,
+      Time_trascurr: "00:00:00",
+      days_trascurr: "00/00/00",
+    });
+
     const list = listtime.map((item) => {
       return {
         code_time: this.extrac_fecha_actual_code(item["fecha"]),
         time_filter: item["Hors_filter"],
       };
     });
-    if (list.length == 0)
-      return res.send({
-        code_time: "000000000000",
-        time_filter: 0,
-        hors_transcur: 0,
-        Time_trascurr: "00:00:00",
-        days_trascurr: "00/00/00",
-      });
+    
     const jsonresul = list[list.length - 1];
     const codetime = jsonresul["code_time"];
     // convertimos el code_time en un array de datos

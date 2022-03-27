@@ -22,7 +22,7 @@ const config = require("./config/config.json");
 //config
 const app = express();
 // si se desea utilizar mysql desabilita esto
-const dbopccion = config.bd.mysql;
+const dbopccion = config.bd.mysql.pool;
 
 app.set("port", process.env.PORT || config.apires.portpru);
 app.set("views", path.join(__dirname, "views"));
@@ -30,7 +30,7 @@ app.set("view engine", "ejs");
 
 //mydellwares ------------------------------------------------------------------
 // si se desea utilizar mysql desabilita esto
-app.use(mysqlconnet(mysql, dbopccion, "single"));
+app.use(mysqlconnet(mysql, dbopccion, "pool"));
 app.use(morgan("dev"))
 app.use(express.json());
 // control de errores

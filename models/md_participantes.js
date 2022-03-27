@@ -5,74 +5,46 @@ let conexibd = new dbcone()
 module.exports = class dbparticiantes{
     
     async leer(req,res){
-        let conet = conexibd.connection(req,res)
+        //let conet = conexibd.connection(req,res)
         // verifica si hay conexion si no la hay manda el error
-        if(conet != null){
-            let results = await new Promise(async (resol, reject) => await conet.query('SELECT * FROM `participante` WHERE `id_negocio` = ?',[req.params.id], (err, rows) => {
-                if (err) reject(err);
-                resol(rows);
-            }));
-
-            return results;
-        }
+        let results = await conexibd.single_query(req, res,'SELECT * FROM `participante` WHERE `id_negocio` = ?',[req.params.id])
+        return (Array.isArray(results))?results:[];
     }
     
     async listar(req,res){
-        let conet = conexibd.connection(req,res)
-        // verifica si hay conexion si no la hay manda el error
-        if(conet != null){
-            let result = await new Promise(async (resol, reject) => await conet.query('SELECT * FROM `participante` WHERE `stado` = ?',[1],(err, rows) => {
-                if (err) reject(err);
-                resol(rows);
-            }));
-            return result;
-        }
+        let results = await conexibd.single_query(req, res,'SELECT * FROM `participante` WHERE `stado` = ?',[1])
+        return (Array.isArray(results))?results:[];
     }
 
-    insertar(req,res){
-        let conet = conexibd.connection(req,res)
+    async insertar(req,res){
         // verifica si hay conexion si no la hay manda el error
-        if(conet != null){
-            conet.query('INSERT INTO `participante`(`nombre`,`descripccion`,`puntaje`,`url`,`stado`) VALUES (?,?,?,?,?);',[req.body.nombre,req.body.descripccion,0,req.body.url,1], (err, rows) => {
-                if (err) return res.send(err)
-                res.send("el curso a sido redistrado")
-            })
-        }
+        let results = await conexibd.single_query(req, res,'INSERT INTO `participante`(`nombre`,`descripccion`,`puntaje`,`url`,`stado`) VALUES (?,?,?,?,?);',
+                                                 [req.body.nombre,req.body.descripccion,0,req.body.url,1],
+                                                 "El participante se inserto con exito")
+        return res.send(results)
     }
 
-    eliminar(req,res){
-        let conet = conexibd.connection(req,res)
+    async eliminar(req,res){
+        //let conet = conexibd.connection(req,res)
         // verifica si hay conexion si no la hay manda el error
-        if(conet != null){
-            conet.query('UPDATE `participante` SET `stado`= ? WHERE `id_negocio` = ?',[0,req.params.id], (err, rows) => {
-                if (err) return res.send(err)
-                res.send("el curso a sido eliminado")
-            })
-        }
+        let results = await conexibd.single_query(req, res,'UPDATE `participante` SET `stado`= ? WHERE `id_negocio` = ?',
+                                                 [0,req.params.id],
+                                                 "El Participante se elimino con exito")
+        return res.send(results)                
     }
 
-    actualizar(req,res){
-        let conet = conexibd.connection(req,res)
-        // verifica si hay conexion si no la hay manda el error
-        if(conet != null){
-            conet.query('UPDATE `participante` SET `nombre`= ? ,`descripccion`= ? ,`url`= ? WHERE `id_negocio`= ?',[req.body.nombre,req.body.descripccion,req.body.url,req.params.id], (err, rows) => {
-                if (err) return res.send(err)
-                res.send("el curso a sido actualizaro")
-            })
-        }
+    async actualizar(req,res){
+        let results = await conexibd.single_query(req, res,'UPDATE `participante` SET `nombre`= ? ,`descripccion`= ? ,`url`= ? WHERE `id_negocio`= ?',
+                                                 [req.body.nombre,req.body.descripccion,req.body.url,req.params.id],
+                                                 "El Participante se actualizado con exito")
+        return res.send(results)
     }
 
     async actualizer_puntuacion(req,res){
-        let conet = conexibd.connection(req,res)
-        // verifica si hay conexion si no la hay manda el error
-        if(conet != null){
-            const listpartici = await this.listar(req,res);
-            listpartici.forEach(element => {
-                conet.query('UPDATE `participante` SET `puntaje`= (SELECT COUNT(*) as suma FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) AND `id_parti` = ? ) WHERE `id_negocio` = ?',[element["id_negocio"],element["id_negocio"]], (err, rows) => {
-                    if (err) return res.send(err)
-                    //res.send("el curso a sido actualizaro")
-                })
-            });
+        const listpartici = await this.listar(req,res)
+        for (let element of listpartici){
+            let results = await conexibd.single_query(req, res,'UPDATE `participante` SET `puntaje`= (SELECT COUNT(*) as suma FROM `votaci_parti` WHERE `id_votac` = (SELECT `id_votaciones` FROM `votaciones` ORDER BY `id_votaciones` DESC LIMIT 1) AND `id_parti` = ? ) WHERE `id_negocio` = ?',[element["id_negocio"],element["id_negocio"]])
         }
+        
     }
 }

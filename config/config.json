@@ -1,11 +1,20 @@
 {
     "bd":{
         "mysql":{
-            "host": "blywpvh5inooghu7iazy-mysql.services.clever-cloud.com",
-            "port": 3306,
-            "user": "ul2jwovrnefnz53q",
-            "password": "0M6qJBWr7Z6yPMeBqt54",
-            "database": "blywpvh5inooghu7iazy"
+            "single":{
+                "host": "blywpvh5inooghu7iazy-mysql.services.clever-cloud.com",
+                "port": 3306,
+                "user": "ul2jwovrnefnz53q",
+                "password": "0M6qJBWr7Z6yPMeBqt54",
+                "database": "blywpvh5inooghu7iazy"
+            },
+            "pool":{
+                "multipleStatements": true,
+                "host": "blywpvh5inooghu7iazy-mysql.services.clever-cloud.com",
+                "user": "ul2jwovrnefnz53q",
+                "password": "0M6qJBWr7Z6yPMeBqt54",
+                "database": "blywpvh5inooghu7iazy"
+            }
         },
         "mongo":{
             "host": "localhost",
