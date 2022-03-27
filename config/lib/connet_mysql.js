@@ -13,33 +13,22 @@ module.exports = class dbmysql{
         return connt
     }
 
-    // esta funcion mas sirve la los selet - para los pool
-    // async pool_query(req,res, query, parameter){
-    //     let result = await new Promise(async (resol, reject) => await req.getConnection((err, connection)=>{
-    //         if (err) console.log(err) // en caso que de un error de conexion
-    //         console.log("connetado")
-    //         connection.query(query, parameter, (err, rows) => {
-    //             //console.log(req._freeConnections.indexOf(connection)); // -1
-    //             //connection.release(); // apaga la conexion
-    //             if (err) return reject(err);
-    //             resol(rows);
-    //             //console.log(req._freeConnections.indexOf(connection)); // 0
-    //         })
-    //     })).catch((err) => setImmediate(() => { console.log(err.message);})); // si da un error de promesa;
-    //     return result
-    // }
-
-    // esta funcion mas sirve la los selet
+    // Mesta la consulta basica - con la conexxion por medio de un callback
     async single_query(req,res, query, parameter, messege = ""){
+        // se crea una promesa, apuntando a la cnexxion - en cual botara el error y la connection
         let result = await new Promise(async (resol, reject) => await req.getConnection((err, connection)=>{
-            if (err) return res.send(err) // en caso que de un error de conexion
+            if (err) return reject(err) // en caso que de un error de conexion
+            // -- Inicio de consulta
             connection.query(query, parameter, (err, rows) => {
                 if (err) return reject(err);
                 if (messege === "") resol(rows);
                 resol(messege);
             })
-        })).catch((err) => setImmediate(() => { console.log(err.message); })); // si da un error de promesa;
+            // -- Fin - Inicio de consulta
+        })).catch((err) => setImmediate(() => { console.log(err.message);})); // si da un error de promesa;
+        // Si no se envia un mensaje , inprime el resultado
         if (messege === "") return result
+        //  si se envia el mensaje, lo retorna
         console.log('\x1b[32m',messege)
         return messege
     }
