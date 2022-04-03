@@ -14,8 +14,9 @@ const gimageftp = require("./config/serviceftp/getimage");
 const generico = require("./routes/generic");
 const participantes = require("./routes/participantes");
 const votaciones = require("./routes/votaciones");
-const cloudftp = require("./config/serviceftp/uploudcloud")
-const usuario = require("./routes/usuarios")
+const cloudftp = require("./config/serviceftp/uploudcloud");
+const usuario = require("./routes/usuarios");
+const categori = require("./routes/categori")
 /// ----------------------------------------------
 const config = require("./config/config.json");
 
@@ -53,7 +54,8 @@ app.get("/", (req, res) => {
 //**** routers personalizados */
 app.use("/tokeniser", tokeniser);
 app.use("/user", usuario);
-app.use("/genetic", verifyToken, generico);
+app.use("/genetic", generico);
+app.use("/categ", verifyToken, categori)
 app.use("/partic", verifyToken, participantes);
 app.use("/votacion", verifyToken, votaciones);
 // ftp insert image

@@ -1,0 +1,17 @@
+### leer los categori
+GET http://localhost:9000/categ/r/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTYzMzI5ODcyM30.ux9bfqNnJznP5t6jX8yid56R2_zGhcFIUtQrYZaWP7A
+
+### listar  los categori
+GET http://localhost:9000/categ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTY0NzU0NTM1MH0.MrKOLX-PXGDzMtpiAaCfknKbdLXJpvkXgttRcYJ-4nc
+
+### insertar  los categori
+POST http://localhost:9000/categ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTY0NzU0NTM1MH0.MrKOLX-PXGDzMtpiAaCfknKbdLXJpvkXgttRcYJ-4nc
+Content-Type: application/json
+
+{
+    "nombre": "cevicherias",
+    "codeurl": "desconocido"
+}

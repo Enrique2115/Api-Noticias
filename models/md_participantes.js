@@ -5,9 +5,12 @@ let conexibd = new dbcone()
 module.exports = class dbparticiantes{
     
     async leer(req,res){
-        //let conet = conexibd.connection(req,res)
-        // verifica si hay conexion si no la hay manda el error
         let results = await conexibd.single_query(req, res,'SELECT * FROM `participante` WHERE `id_negocio` = ?',[req.params.id])
+        return (Array.isArray(results))?results:[];
+    }
+
+    async listar_x_categori(req,res){
+        let results = await conexibd.single_query(req, res,'SELECT * FROM `participante` WHERE `stado` = ? AND `id_categori` = ? ;',[1,req.params.id])
         return (Array.isArray(results))?results:[];
     }
     
@@ -17,16 +20,13 @@ module.exports = class dbparticiantes{
     }
 
     async insertar(req,res){
-        // verifica si hay conexion si no la hay manda el error
-        let results = await conexibd.single_query(req, res,'INSERT INTO `participante`(`nombre`,`descripccion`,`puntaje`,`url`,`stado`) VALUES (?,?,?,?,?);',
-                                                 [req.body.nombre,req.body.descripccion,0,req.body.url,1],
+        let results = await conexibd.single_query(req, res,'INSERT INTO `participante`(`nombre`,`descripccion`,`puntaje`,`url`,`id_categor`,`stado`) VALUES (?,?,?,?,?,?);',
+                                                 [req.body.nombre,req.body.descripccion,0,req.body.url,(req.body.hasOwnProperty("id_cat"))?req.body.id_cat:1,1],
                                                  "El participante se inserto con exito")
         return res.send(results)
     }
 
     async eliminar(req,res){
-        //let conet = conexibd.connection(req,res)
-        // verifica si hay conexion si no la hay manda el error
         let results = await conexibd.single_query(req, res,'UPDATE `participante` SET `stado`= ? WHERE `id_negocio` = ?',
                                                  [0,req.params.id],
                                                  "El Participante se elimino con exito")
@@ -34,8 +34,8 @@ module.exports = class dbparticiantes{
     }
 
     async actualizar(req,res){
-        let results = await conexibd.single_query(req, res,'UPDATE `participante` SET `nombre`= ? ,`descripccion`= ? ,`url`= ? WHERE `id_negocio`= ?',
-                                                 [req.body.nombre,req.body.descripccion,req.body.url,req.params.id],
+        let results = await conexibd.single_query(req, res,'UPDATE `participante` SET `nombre`= ? ,`descripccion`= ?, `id_categor` = ? ,`url`= ? WHERE `id_negocio`= ?',
+                                                 [req.body.nombre,req.body.descripccion,(req.body.hasOwnProperty("id_cat"))?req.body.id_cat:1,req.body.url,req.params.id],
                                                  "El Participante se actualizado con exito")
         return res.send(results)
     }

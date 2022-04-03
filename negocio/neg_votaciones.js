@@ -8,21 +8,33 @@ module.exports = class negvotaciones {
       ? "0" + itemtime.toString()
       : itemtime.toString();
   }
-
+  //#######################################################
+  // Convertir de una fecha (Date) a un codigo de fecha
+  // nota: cuando un dia o mes o hora o minuto, tine un formato de un caracter, se trasforma con el metodo correcion_dato_fecha
+  // para poder evitar errores, esto quiere decir que si el dia es 1 -> 01 o si la hora es 24 -> 24
+  //#######################################################
   extrac_fecha_actual_code(fecha) {
-    const day = fecha.getDate();
+    // # dia
+    let day = fecha.getDate();
+    day = this.correcion_dato_fecha(day);
+    // # mes
     // se le umenta 1 para evitar errores de mes no sincronosiados
     let month = fecha.getMonth() + 1;
     month = this.correcion_dato_fecha(month);
+    // # año
     const year = fecha.getFullYear();
+    // # hora
     let hors = fecha.getHours();
     hors = this.correcion_dato_fecha(hors);
-    const minut = fecha.getMinutes();
+    // # minuros
+    let minut = fecha.getMinutes();
+    minut = this.correcion_dato_fecha(minut);
+    //# concatenamos a un codigo
     const codefecha =
       year.toString() +
       month.toString() +
       day.toString() +
-      this.correcion_dato_fecha(hors) +
+      hors.toString() +
       this.correcion_dato_fecha(minut);
     return codefecha;
   }
@@ -107,8 +119,9 @@ module.exports = class negvotaciones {
   }
 
   async aperturar_votaciones(req, res) {
-    const codetime = this.extrac_fecha_actual_code(new Date());
+    const codetime = this.extrac_fecha_actual_code(new Date(Date.now()));
     const listtime = await this.list_time_apertur(req, res);
+    console.log(codetime);
     const list = listtime.map((item) => {
       return this.extrac_fecha_actual_code(item["fecha"]);
     });
@@ -176,7 +189,9 @@ module.exports = class negvotaciones {
 
     return Math.abs(Math.round(diferencia));
   }
-
+   //#######################################################
+  // Extrae del codee, un un array de fecha -> 20000121000000 = [2000,01,21,00,00,00]
+  //#######################################################
   format_code_time(fechaactual) {
     return [
       parseInt(fechaactual.substring(0, 4)),
@@ -187,7 +202,9 @@ module.exports = class negvotaciones {
       0,
     ];
   }
-
+  //#######################################################
+  // Se extrae la ultima fecha de apertura de votacion
+  //#######################################################
   async get_time_apertura(req, res) {
     const listtime = await this.list_time_apertur(req, res);
     // si no es un array retorna un objeto en hablo
@@ -214,6 +231,8 @@ module.exports = class negvotaciones {
         time_filter: item["Hors_filter"],
       };
     });
+
+    console.log(list[list.length - 1]);
     
     const jsonresul = list[list.length - 1];
     const codetime = jsonresul["code_time"];
@@ -267,8 +286,21 @@ module.exports = class negvotaciones {
 
   async analicis_votaciones(req, res) {
     // refrescamos la puntuacion ......
-    await objconsulP.actualizer_puntuacion(req, res);
+    // await objconsulP.actualizer_puntuacion(req, res);
     // analizamos los puntos
     objconsul.analitic(req, res);
   }
+
+  async listar_votaciones(req, res){
+    let result = await objconsul.listar(req, res);
+    let resulted = result.map((item)=>{
+        return {
+          id_votaciones: item.id_votaciones,
+          fecha: this.extrac_fecha_actual_code(item.fecha),
+          Hors_filter : item.Hors_filter
+        }
+    });
+    return res.send(resulted);
+  }
+
 };

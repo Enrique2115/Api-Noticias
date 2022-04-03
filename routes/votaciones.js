@@ -11,7 +11,7 @@ rooutes.get("/reload", (req, res) => {
 });
 
 // Analiza las respuesta de la ultima encuesta creada o aperturada
-rooutes.get("/analic", (req, res) => {
+rooutes.get("/analic/:id", (req, res) => {
     objneg.analicis_votaciones(req, res)
     //res.send(messege)
 });
@@ -38,6 +38,12 @@ rooutes.get("/like/:id", (req, res) => {
 rooutes.get("/verifi", async (req, res) => {
     let result = await objneg.verifi_participante_to_empresa(req, res)
     res.send({"id_partici": result})
+});
+
+// Retorna las votaciones aperturadas
+rooutes.get("/", (req, res) => {
+    objneg.listar_votaciones(req, res);
+    //res.send(messege)
 });
 
 module.exports = rooutes;
