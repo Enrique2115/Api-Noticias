@@ -18,7 +18,7 @@ module.exports = class dbparticiantes{
 
     async insertar(req,res){
         let results = await conexibd.single_query(req, res,'INSERT INTO `categori_parti`(`nombre`, `urlcode`, `stade`) VALUES (?,?,?);',
-                                                 [req.body.nombre,req.body.codeurl,1],
+                                                 [req.body.nombre,"<div>Desconocido<div/>",1],
                                                  "El participante se inserto con exito")
         return res.send(results)
     }
@@ -27,5 +27,12 @@ module.exports = class dbparticiantes{
     }
 
     async actualizar(req,res){
+        let codeurl = req.body.codeurl;
+        let nombre = req.body.nombre;
+        let id = req.params.id;
+        let results = await conexibd.single_query(req, res,'update categori_parti set nombre = ? , urlcode = ? where id = ? ;',
+                                                 [nombre,codeurl,id],
+                                                 "El participante se actualizado con exito")
+        return res.send(results)
     }
 }

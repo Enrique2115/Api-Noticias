@@ -22,7 +22,8 @@ module.exports = class negcategori{
     }
 
     async actualizar_categori(req, res){
-        
+        if (!(req.body.codeurl != "" && req.body.nombre != "")) return res.send({"messege": "Error al actualizar datos al servidor"})
+        objmodel.actualizar(req, res);
     }
 
     async eliminar_categori(req, res){

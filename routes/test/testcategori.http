@@ -12,6 +12,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5N
 Content-Type: application/json
 
 {
-    "nombre": "cevicherias",
-    "codeurl": "desconocido"
+    "nombre": "carniserias"
+}
+
+### insertar  los categori
+PUT http://localhost:9000/categ/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5NjkyODAyNTUsIm5vbWJyZSI6ImJyYWRjYXIiLCJlbWFpbCI6InVjdjIwMjFAZW1haWwuY29tIn0sImlhdCI6MTY0NzU0NTM1MH0.MrKOLX-PXGDzMtpiAaCfknKbdLXJpvkXgttRcYJ-4nc
+Content-Type: application/json
+
+{
+    "nombre": "",
+    "codeurl": "<iframe width='100%' height='315' src='https://www.youtube.com/embed/6LV6V8Iczu8' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>"
 }

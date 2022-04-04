@@ -20,12 +20,9 @@ rooutes.post("/", (req, res) => {
 });
 
 //actualizar
-// rooutes.put("/:id", (req, res) => {
-//   // jsonbody = req.body;
-//   // jsonbody["id"] = req.params.id;
-//   objneg.actualizar_participante(req, res)
-//   //res.send(messege);
-// });
+rooutes.put("/:id", (req, res) => {
+  objneg.actualizar_categori(req, res);
+});
 
 //eliminar
 // rooutes.delete("/:id", (req, res) => {
