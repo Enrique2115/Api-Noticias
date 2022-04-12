@@ -77,6 +77,17 @@ module.exports = class dbvotaciones {
             trasformdata.push(item);
         }
 
+        // ordanar de mayor a menor
+        trasformdata.sort(function (a, b) {
+            if (a.puntaje > b.puntaje) {
+              return -1;
+            }
+            if (a.puntaje < b.puntaje) {
+              return 1;
+            }
+            // a must be equal to b
+            return 0;
+          });
         // console.log(trasformdata)
         return res.json(trasformdata);
     }
